@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   Validators,
   FormBuilder,
@@ -15,7 +15,7 @@ import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component'
   templateUrl: './order-dialog.component.html',
   styleUrls: ['./order-dialog.component.scss'],
 })
-export class OrderDialogComponent {
+export class OrderDialogComponent implements OnInit {
   radioButtonGroup = this._formBuilder.group({
     radioCtrl: ['', Validators.required],
   });

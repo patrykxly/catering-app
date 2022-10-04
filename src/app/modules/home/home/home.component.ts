@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { FoodSetCardModel } from 'src/app/_shared/_models/foodSetCardModel';
 
 @Component({
@@ -6,7 +6,7 @@ import { FoodSetCardModel } from 'src/app/_shared/_models/foodSetCardModel';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
   foodSets: FoodSetCardModel[] = [
     {
@@ -30,8 +30,5 @@ export class HomeComponent implements OnInit {
   ]
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

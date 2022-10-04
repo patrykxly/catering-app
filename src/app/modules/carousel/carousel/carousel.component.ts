@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FoodSetCardModel } from 'src/app/_shared/_models/foodSetCardModel';
 import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component';
@@ -9,12 +9,10 @@ import { OrderDialogComponent } from '../order-dialog/order-dialog.component';
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss'],
 })
-export class CarouselComponent implements OnInit {
+export class CarouselComponent {
   @Input() foodSets: FoodSetCardModel[] = [];
 
   constructor(public dialog: MatDialog) {}
-
-  ngOnInit(): void {}
 
   openDetailDialog(foodSet: FoodSetCardModel): void {
     const dialogRef = this.dialog.open(DetailDialogComponent, {

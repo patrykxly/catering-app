@@ -1,15 +1,11 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-caloric-requirement-calculator',
   templateUrl: './caloric-requirement-calculator.component.html',
   styleUrls: ['./caloric-requirement-calculator.component.scss'],
 })
-export class CaloricRequirementCalculatorComponent implements OnInit {
+export class CaloricRequirementCalculatorComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

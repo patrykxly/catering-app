@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FoodSetCardModel } from 'src/app/_shared/_models/foodSetCardModel';
 import { OrderDialogComponent } from '../order-dialog/order-dialog.component';
@@ -8,16 +8,12 @@ import { OrderDialogComponent } from '../order-dialog/order-dialog.component';
   templateUrl: './detail-dialog.component.html',
   styleUrls: ['./detail-dialog.component.scss'],
 })
-export class DetailDialogComponent implements OnInit {
-
+export class DetailDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<DetailDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: FoodSetCardModel,
     public dialog: MatDialog
   ) {}
-
-  ngOnInit(): void {
-  }
 
   closeDialog(): void {
     this.dialogRef.close();
