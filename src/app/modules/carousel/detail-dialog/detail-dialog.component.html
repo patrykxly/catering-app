@@ -1,0 +1,11 @@
+<div class="food-set-detail-dialog-content" mat-dialog-content>
+  <button class="close-button" (click)="closeDialog()">x</button>
+  <h2>{{ data.name }}</h2>
+  <div class="description">
+    {{ data.description }}
+  </div>
+  <div class="dialog-footer">
+    <p class="price">Starts at {{ data.price }}$/day</p>
+    <button mat-button class="order-button" (click)="openOrderDialog(data)">Make an order</button>
+  </div>
+</div>

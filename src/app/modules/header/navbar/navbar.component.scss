@@ -1,0 +1,28 @@
+@import "../../../_shared/variables.scss";
+
+.mat-toolbar.mat-primary {
+  margin-bottom: 1em;
+  background: $my-primary;
+  color: $my-secondary;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.sign-button {
+  border: none;
+  color: $my-secondary;
+  background-color: $my-primary;
+  &::after {
+    content: '';
+    width: 0px;
+    height: 1px;
+    display: block;
+    background: $my-secondary;
+    transition: 300ms;
+  }
+  &:hover::after {
+    width:100%;
+  }
+}

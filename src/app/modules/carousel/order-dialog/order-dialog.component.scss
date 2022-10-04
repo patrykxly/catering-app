@@ -1,0 +1,55 @@
+@import "../../../_shared/variables.scss";
+
+::ng-deep.mat-step-header .mat-step-icon-selected,
+::ng-deep.mat-step-header .mat-step-icon-state-done,
+::ng-deep.mat-step-header .mat-step-icon-state-edit {
+  background-color: $my-primary !important;
+}
+
+.date-range-picker {
+  margin-top: 0.3em;
+  display: flex;
+  justify-content: center;
+}
+
+mat-stepper .footer {
+  margin-top: 1em;
+  margin-bottom: 0;
+  .next-button {
+    float: right;
+  }
+  .back-button {
+    float: left;
+  }
+  .calculate-requirement-info {
+    float: left;
+  }
+}
+
+.price-info {
+  color: $my-primary;
+  font-weight: 500;
+}
+
+.calorie-radio-buttons {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+  mat-radio-button {
+    margin: 5px;
+    font-size: 1.1em;
+  }
+}
+
+.calculate-requirement-button {
+  float: left;
+}
+
+.confirm-info {
+  margin: .5em auto;
+  font-size: 1.1em;
+  h3 {
+    display: inline;
+  }
+}

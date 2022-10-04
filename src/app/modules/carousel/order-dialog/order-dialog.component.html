@@ -1,0 +1,101 @@
+<mat-stepper [linear]="true" #stepper>
+  <mat-step label="Select calories amount" [stepControl]="radioButtonGroup">
+    <form [formGroup]="radioButtonGroup">
+      <mat-radio-group
+        aria-label="Select calories amount"
+        class="calorie-radio-buttons"
+        [(ngModel)]="chosenCalorieOptionPrice"
+        formControlName="radioCtrl"
+        required
+      >
+        <mat-radio-button [value]="data.price"
+          >2000 kcal - {{ data.price }}$/day</mat-radio-button
+        >
+        <mat-radio-button [value]="data.price + 3"
+          >2500 kcal - {{ data.price + 3 }}$/day</mat-radio-button
+        >
+        <mat-radio-button [value]="data.price + 6"
+          >3000 kcal - {{ data.price + 6 }}$/day</mat-radio-button
+        >
+      </mat-radio-group>
+    </form>
+    <div class="footer">
+      <p class="calculate-requirement-info">
+        Don't know how many calories do you need?
+        <button mat-button color="primary" (click)="onCalculateCaloricRequirementClick()">
+          Calculate your caloric requirement!
+        </button>
+      </p>
+      <button class="next-button" mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step label="Select date" [stepControl]="firstFormGroup">
+    <mat-form-field appearance="fill" class="date-range-picker">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input
+        [rangePicker]="rangePicker"
+        [formGroup]="range"
+        [min]="minDate"
+      >
+        <input
+          matStartDate
+          formControlName="start"
+          placeholder="Start date"
+          [disabled]="true"
+        />
+        <input
+          matEndDate
+          formControlName="end"
+          placeholder="End date"
+          [disabled]="true"
+        />
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="rangePicker"
+      ></mat-datepicker-toggle>
+      <mat-date-range-picker #rangePicker color="accent" disabled="false">
+        <mat-date-range-picker-actions>
+          <button mat-button matDateRangePickerCancel>Cancel</button>
+          <button
+            mat-raised-button
+            color="primary"
+            matDateRangePickerApply
+            (click)="onCountPrice()"
+          >
+            Apply
+          </button>
+        </mat-date-range-picker-actions>
+      </mat-date-range-picker>
+    </mat-form-field>
+    <p class="price-info" *ngIf="fullPrice">Full price: {{ fullPrice }}$</p>
+    <div class="footer">
+      <button class="back-button" mat-button matStepperPrevious>Back</button>
+      <button class="next-button" mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step label="Confirm order">
+    <div class="confirm-order-info" *ngIf="fullPrice">
+      <span class="confirm-info"
+        ><h3>Chosen date:</h3>
+        {{ range.value.start | date: "M/d/yy" }} -
+        {{ range.value.end | date: "M/d/yy" }}</span
+      >
+      <br />
+      <span class="confirm-info"
+        ><h3>Full price:</h3>
+        {{ fullPrice }}$</span
+      >
+      <br />
+      <span class="confirm-info"
+        ><h3>Chosen calorie option:</h3>
+        {{ chosenCalorieOption }}</span
+      >
+    </div>
+    <div class="footer">
+      <button class="back-button" mat-button matStepperPrevious>Back</button>
+      <button class="next-button" mat-button (click)="onConfirm()">Confirm</button>
+    </div>
+  </mat-step>
+</mat-stepper>

@@ -1,0 +1,26 @@
+@import "../../../_shared/variables.scss";
+
+.close-button{
+    display:flex;
+    float:right;
+    border:none;
+    background-color: white;
+    font-size:1.2em;
+}
+
+.dialog-footer{
+    margin-top:1em;
+    .order-button{
+        border:none;
+        float:right;
+        background-color: $my-primary;
+        color:$my-secondary;
+        padding: .3em .5em;
+    }
+    .price{
+        font-size:1.2em;
+        float:left; 
+        padding-top: .3em;
+    }
+}
+

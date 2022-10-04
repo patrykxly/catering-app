@@ -1,0 +1,13 @@
+<div class="carouselContent">
+    <ngb-carousel *ngIf="foodSets">
+        <ng-template ngbSlide *ngFor="let foodSet of foodSets">
+        <div class="picsum-img-wrapper">
+            <img [src]="foodSet.img" [alt]="foodSet.name">
+        </div>
+        <div class="carousel-caption">
+            <p>{{foodSet.name}}</p>
+            <button class = "carouselDetailsButton" (click)="openDetailDialog(foodSet)">See more</button>
+        </div>
+        </ng-template>
+    </ngb-carousel>
+</div>

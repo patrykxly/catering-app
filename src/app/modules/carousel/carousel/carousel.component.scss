@@ -1,0 +1,31 @@
+@import "../../../_shared/variables.scss";
+.carouselContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 4em;
+}
+
+ngb-carousel {
+  width: 60%;
+  img {
+    width: 100%;
+    opacity: 80%;
+  }
+  p {
+    font-size: 1.2em;
+    color: $my-secondary;
+  }
+  .carouselDetailsButton {
+    border-radius: 5px;
+    border: none;
+    background-color: $my-primary;
+    color: $my-secondary;
+    transition: background-color 1s, color 1s;
+    &:hover {
+      background-color: $my-secondary;
+      color: $my-primary;
+    }
+  }
+}

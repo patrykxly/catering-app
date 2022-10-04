@@ -1,0 +1,41 @@
+<app-navbar></app-navbar>
+<div class="calculator-container">
+  <mat-card>
+    <mat-card-title>Calculate your caloric requirement</mat-card-title>
+    <mat-card-content>
+      <form class="calculator-form">
+        <p>
+          <mat-form-field appearance="fill">
+            <mat-label>Gender</mat-label>
+            <input matInput required />
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field appearance="fill">
+            <mat-label>Age</mat-label>
+            <input matInput required />
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field appearance="fill">
+            <mat-label>Height</mat-label>
+            <input matInput required />
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field appearance="fill">
+            <mat-label>Activity during the day</mat-label>
+            <mat-select required>
+                <mat-option value="high">High</mat-option>
+                <mat-option value="regular">Regular</mat-option>
+                <mat-option value="low">Low</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </p>
+        <button mat-raised-button type="submit">
+          Calculate
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
