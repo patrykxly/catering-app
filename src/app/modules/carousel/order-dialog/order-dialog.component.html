@@ -4,17 +4,16 @@
       <mat-radio-group
         aria-label="Select calories amount"
         class="calorie-radio-buttons"
-        [(ngModel)]="chosenCalorieOptionPrice"
         formControlName="radioCtrl"
         required
       >
-        <mat-radio-button [value]="data.price"
+        <mat-radio-button [value]="data.price" (change)="onRadioClick()"
           >2000 kcal - {{ data.price }}$/day</mat-radio-button
         >
-        <mat-radio-button [value]="data.price + 3"
+        <mat-radio-button [value]="data.price + 3" (change)="onRadioClick()"
           >2500 kcal - {{ data.price + 3 }}$/day</mat-radio-button
         >
-        <mat-radio-button [value]="data.price + 6"
+        <mat-radio-button [value]="data.price + 6" (change)="onRadioClick()"
           >3000 kcal - {{ data.price + 6 }}$/day</mat-radio-button
         >
       </mat-radio-group>
@@ -22,14 +21,21 @@
     <div class="footer">
       <p class="calculate-requirement-info">
         Don't know how many calories do you need?
-        <button mat-button color="primary" (click)="onCalculateCaloricRequirementClick()">
+        <button
+          mat-button
+          color="primary"
+          (click)="onCalculateCaloricRequirementClick()"
+        >
           Calculate your caloric requirement!
         </button>
       </p>
       <button class="next-button" mat-button matStepperNext>Next</button>
     </div>
   </mat-step>
-  <mat-step label="Select date" [stepControl]="firstFormGroup">
+  <mat-step
+    label="Select date"
+    [stepControl]="dateFormGroup"
+  >
     <mat-form-field appearance="fill" class="date-range-picker">
       <mat-label>Enter a date range</mat-label>
       <mat-date-range-input
@@ -37,18 +43,8 @@
         [formGroup]="range"
         [min]="minDate"
       >
-        <input
-          matStartDate
-          formControlName="start"
-          placeholder="Start date"
-          [disabled]="true"
-        />
-        <input
-          matEndDate
-          formControlName="end"
-          placeholder="End date"
-          [disabled]="true"
-        />
+        <input matStartDate formControlName="start" placeholder="Start date" />
+        <input matEndDate formControlName="end" placeholder="End date" />
       </mat-date-range-input>
       <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
       <mat-datepicker-toggle
@@ -95,7 +91,9 @@
     </div>
     <div class="footer">
       <button class="back-button" mat-button matStepperPrevious>Back</button>
-      <button class="next-button" mat-button (click)="onConfirm()">Confirm</button>
+      <button class="next-button" mat-button (click)="onConfirm()">
+        Confirm
+      </button>
     </div>
   </mat-step>
 </mat-stepper>

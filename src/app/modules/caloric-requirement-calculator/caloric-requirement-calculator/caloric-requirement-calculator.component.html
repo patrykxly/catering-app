@@ -3,39 +3,57 @@
   <mat-card>
     <mat-card-title>Calculate your caloric requirement</mat-card-title>
     <mat-card-content>
-      <form class="calculator-form">
+      <form
+        class="calculator-form"
+        [formGroup]="calculateCaloricRequirementForm"
+      >
         <p>
           <mat-form-field appearance="fill">
             <mat-label>Gender</mat-label>
-            <input matInput required />
+            <mat-select formControlName="gender" required>
+              <mat-option value="male">Male</mat-option>
+              <mat-option value="female">Female</mat-option>
+            </mat-select>
           </mat-form-field>
         </p>
         <p>
           <mat-form-field appearance="fill">
             <mat-label>Age</mat-label>
-            <input matInput required />
+            <input matInput formControlName="age" required />
           </mat-form-field>
         </p>
         <p>
           <mat-form-field appearance="fill">
-            <mat-label>Height</mat-label>
-            <input matInput required />
+            <mat-label>Height (cm)</mat-label>
+            <input matInput formControlName="height" required />
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field appearance="fill">
+            <mat-label>Weight (kg)</mat-label>
+            <input matInput formControlName="weight" required />
           </mat-form-field>
         </p>
         <p>
           <mat-form-field appearance="fill">
             <mat-label>Activity during the day</mat-label>
-            <mat-select required>
-                <mat-option value="high">High</mat-option>
-                <mat-option value="regular">Regular</mat-option>
-                <mat-option value="low">Low</mat-option>
+            <mat-select formControlName="activity" required>
+              <mat-option value="high">High</mat-option>
+              <mat-option value="regular">Regular</mat-option>
+              <mat-option value="low">Low</mat-option>
             </mat-select>
           </mat-form-field>
         </p>
-        <button mat-raised-button type="submit">
+        <mat-error *ngIf="isFormInvalidAfterSubmit" style="margin-bottom:.5em">
+          Please fill all fields.
+        </mat-error>
+        <button mat-raised-button type="submit" (click)="onSubmitClick()">
           Calculate
         </button>
       </form>
+      <p *ngIf="caloriesCalculated">
+        Your daily caloric requirement is {{ calories }} kcal.
+      </p>
     </mat-card-content>
   </mat-card>
 </div>

@@ -5,8 +5,13 @@ import {
   FormGroup,
   FormControl,
 } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { startWith, tap } from 'rxjs';
 import { FoodSetCardModel } from 'src/app/_shared/_models/foodSetCardModel';
 import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component';
 
@@ -16,28 +21,21 @@ import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component'
   styleUrls: ['./order-dialog.component.scss'],
 })
 export class OrderDialogComponent implements OnInit {
-  radioButtonGroup = this._formBuilder.group({
-    radioCtrl: ['', Validators.required],
-  });
-  firstFormGroup = this._formBuilder.group({
-    firstCtrl: [new Date(), Validators.required],
-  });
-  secondFormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
-  });
+  radioButtonGroup!: FormGroup;
 
-  range = new FormGroup({
-    start: new FormControl<Date | null>(null),
-    end: new FormControl<Date | null>(null),
-  });
+  dateFormGroup!: FormGroup;
+
+  range!: FormGroup;
 
   minDate!: Date;
 
   fullPrice!: number;
 
-  chosenCalorieOptionPrice!: number;
-
   chosenCalorieOption!: string;
+
+  daysChosen!: number;
+
+  chosenRadioValue!: number;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -48,13 +46,35 @@ export class OrderDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.radioButtonGroup = this._formBuilder.group({
+      radioCtrl: ['', Validators.required],
+    });
+  
+    this.dateFormGroup = this._formBuilder.group({
+      secondCtrl: [new Date(), Validators.required],
+    });
+  
+    this.range = this._formBuilder.group({
+      start: new FormControl<Date | null>({ value: null, disabled: true }),
+      end: new FormControl<Date | null>({ value: null, disabled: true }),
+    });
+    
     this.minDate = new Date();
   }
 
+  onRadioClick(): void {
+    if (this.fullPrice)
+      this.setFullPriceAndChosenCalorieOptionAfterCalculated();
+  }
+
+  onSecondStepClick(): void {
+    console.log('xd');
+  }
+
   onCountPrice(): void {
-    const daysChosen = (this.range.value.end!.getTime()-this.range.value.start!.getTime())/(1000 * 60 * 60 * 24);
-    this.fullPrice = this.chosenCalorieOptionPrice*daysChosen;
-    this.chosenCalorieOption = String((this.chosenCalorieOptionPrice-this.data.price)/3*500+2000) + "kcal";
+    this.setFullpriceAndChosenCalorieOption(
+      this.radioButtonGroup.get('radioCtrl')?.value as string
+    );
   }
 
   onCalculateCaloricRequirementClick(): void {
@@ -64,5 +84,27 @@ export class OrderDialogComponent implements OnInit {
 
   onConfirm(): void {
     this.dialogRef.close();
+  }
+
+  private setFullpriceAndChosenCalorieOption(chosenRadioValue: string): void {
+    this.daysChosen =
+      (this.range.value.end!.getTime() - this.range.value.start!.getTime()) /
+      (1000 * 60 * 60 * 24);
+    this.fullPrice = Number(chosenRadioValue) * this.daysChosen;
+    this.chosenCalorieOption =
+      String(((Number(chosenRadioValue) - this.data.price) / 3) * 500 + 2000) +
+      'kcal';
+  }
+
+  private setFullPriceAndChosenCalorieOptionAfterCalculated(): void {
+    this.radioButtonGroup
+      .get('radioCtrl')
+      ?.valueChanges.pipe(
+        startWith(''),
+        tap((chosenRadioValue) => {
+          this.setFullpriceAndChosenCalorieOption(chosenRadioValue as string);
+        })
+      )
+      .subscribe();
   }
 }
