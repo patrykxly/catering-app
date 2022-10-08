@@ -34,7 +34,7 @@
   </mat-step>
   <mat-step
     label="Select date"
-    [stepControl]="dateFormGroup"
+    [stepControl]="range"
   >
     <mat-form-field appearance="fill" class="date-range-picker">
       <mat-label>Enter a date range</mat-label>
@@ -85,8 +85,8 @@
       >
       <br />
       <span class="confirm-info"
-        ><h3>Chosen calorie option:</h3>
-        {{ chosenCalorieOption }}</span
+        ><h3>Chosen calorie amount:</h3>
+        {{ chosenCalorieAmount }}</span
       >
     </div>
     <div class="footer">

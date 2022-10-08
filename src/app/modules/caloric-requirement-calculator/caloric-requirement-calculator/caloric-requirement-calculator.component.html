@@ -20,18 +20,34 @@
           <mat-form-field appearance="fill">
             <mat-label>Age</mat-label>
             <input matInput formControlName="age" required />
+            <mat-error
+              *ngIf="
+                calculateCaloricRequirementForm.get('age')?.errors?.['forbiddenAge']
+              "
+              >Please provide the correct age.</mat-error
+            >
           </mat-form-field>
         </p>
         <p>
           <mat-form-field appearance="fill">
             <mat-label>Height (cm)</mat-label>
             <input matInput formControlName="height" required />
+            <mat-error
+            *ngIf="
+              calculateCaloricRequirementForm.get('height')?.errors?.['forbiddenHeight']
+            "
+            >Please provide the correct height.</mat-error>
           </mat-form-field>
         </p>
         <p>
           <mat-form-field appearance="fill">
             <mat-label>Weight (kg)</mat-label>
             <input matInput formControlName="weight" required />
+            <mat-error
+            *ngIf="
+              calculateCaloricRequirementForm.get('weight')?.errors?.['forbiddenWeight']
+            "
+            >Please provide the correct weight.</mat-error>
           </mat-form-field>
         </p>
         <p>
@@ -44,16 +60,16 @@
             </mat-select>
           </mat-form-field>
         </p>
-        <mat-error *ngIf="isFormInvalidAfterSubmit" style="margin-bottom:.5em">
+        <mat-error
+          *ngIf="!isEveryInputFilled"
+          style="margin-bottom: 0.5em"
+        >
           Please fill all fields.
         </mat-error>
         <button mat-raised-button type="submit" (click)="onSubmitClick()">
           Calculate
         </button>
       </form>
-      <p *ngIf="caloriesCalculated">
-        Your daily caloric requirement is {{ calories }} kcal.
-      </p>
     </mat-card-content>
   </mat-card>
 </div>

@@ -1,5 +1,14 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { CaloricRequirementInfoDialogComponent } from '../caloric-requirement-info-dialog/caloric-requirement-info-dialog.component';
 
 @Component({
   selector: 'app-caloric-requirement-calculator',
@@ -11,28 +20,98 @@ export class CaloricRequirementCalculatorComponent {
 
   calories!: number;
 
-  caloriesCalculated: boolean = false;
+  isEveryInputFilled: boolean = true;
 
-  isFormInvalidAfterSubmit: boolean = false;
-
-  constructor(private _formBuilder: FormBuilder) {
+  constructor(private _formBuilder: FormBuilder, public dialog: MatDialog) {
     this.calculateCaloricRequirementForm = this._formBuilder.group({
       gender: ['', Validators.required],
-      age: [null, Validators.required],
-      height: [null, Validators.required],
-      weight: [null, Validators.required],
+      age: [
+        null,
+        [
+          Validators.required,
+          CaloricRequirementCalculatorComponent.forbiddenAgeValidator(),
+        ],
+      ],
+      height: [
+        null,
+        [
+          Validators.required,
+          CaloricRequirementCalculatorComponent.forbiddenHeightValidator(),
+        ],
+      ],
+      weight: [
+        null,
+        [
+          Validators.required,
+          CaloricRequirementCalculatorComponent.forbiddenWeightValidator(),
+        ],
+      ],
       activity: ['', Validators.required],
     });
   }
 
+  static forbiddenAgeValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const isAgeForbidden = control.value < 0 || control.value > 122;
+      return isAgeForbidden ? { forbiddenAge: { value: control.value } } : null;
+    };
+  }
+
+  static forbiddenHeightValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const isHeightForbidden = control.value < 55 || control.value > 251;
+      return isHeightForbidden
+        ? { forbiddenHeight: { value: control.value } }
+        : null;
+    };
+  }
+
+  static forbiddenWeightValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const isWeightForbidden = control.value < 0 || control.value > 400;
+      return isWeightForbidden
+        ? { forbiddenWeight: { value: control.value } }
+        : null;
+    };
+  }
+
   onSubmitClick(): void {
-    if(this.calculateCaloricRequirementForm.invalid) {
-      this.isFormInvalidAfterSubmit = true;
-      return;
-    }
+    if (!this.isFormValid()) return;
     this.setCalories();
-    this.isFormInvalidAfterSubmit = false;
-    this.caloriesCalculated = true;
+    this.isEveryInputFilled = true;
+    this.openCaloricRequirementInfoDialog();
+  }
+
+  openCaloricRequirementInfoDialog(): void {
+    const dialogRef = this.dialog.open(CaloricRequirementInfoDialogComponent, {
+      width: '30%',
+      data: {
+        calories: this.calories,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      console.info('Caloric requirement info dialog closed');
+    });
+  }
+
+  private isFormValid(): boolean {
+    if (
+      Object.keys(this.calculateCaloricRequirementForm.controls).find(
+        (key) =>
+          this.calculateCaloricRequirementForm?.get(key)?.errors?.['required']
+      )
+    ) {
+      this.isEveryInputFilled = false;
+      return false;
+    }
+    if (
+      Object.keys(this.calculateCaloricRequirementForm.controls).find(
+        (key) => this.calculateCaloricRequirementForm?.get(key)?.invalid
+      )
+    )
+      return false;
+    return true;
   }
 
   private setCalories(): void {

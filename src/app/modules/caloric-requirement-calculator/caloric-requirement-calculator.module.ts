@@ -10,8 +10,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CaloricRequirementInfoDialogComponent } from './caloric-requirement-info-dialog/caloric-requirement-info-dialog.component';
 @NgModule({
-  declarations: [CaloricRequirementCalculatorComponent],
+  declarations: [CaloricRequirementCalculatorComponent, CaloricRequirementInfoDialogComponent],
   imports: [
     CommonModule,
     CaloricRequirementCalculatorRoutingModule,
