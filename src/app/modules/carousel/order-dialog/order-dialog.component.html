@@ -21,21 +21,14 @@
     <div class="footer">
       <p class="calculate-requirement-info">
         Don't know how many calories do you need?
-        <button
-          mat-button
-          color="primary"
-          (click)="onCalculateCaloricRequirementClick()"
-        >
+        <a (click)="onCalculateCaloricRequirementClick()">
           Calculate your caloric requirement!
-        </button>
+        </a>
       </p>
       <button class="next-button" mat-button matStepperNext>Next</button>
     </div>
   </mat-step>
-  <mat-step
-    label="Select date"
-    [stepControl]="range"
-  >
+  <mat-step label="Select date" [stepControl]="range">
     <mat-form-field appearance="fill" class="date-range-picker">
       <mat-label>Enter a date range</mat-label>
       <mat-date-range-input

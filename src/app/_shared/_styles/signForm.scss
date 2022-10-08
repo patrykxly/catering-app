@@ -1,0 +1,49 @@
+@import "../../_shared/variables.scss";
+@mixin signForm {
+    :host {
+        .form-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 2em;
+            .form-title {
+                text-align: center;
+                margin-bottom: 1em;
+            }
+            .form-content {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 0 2em;
+                p {
+                    margin: 0 auto;
+                }
+                button {
+                    width: 100%;
+                    margin-top: 0.5em;
+                    color: $my-secondary;
+                    background-color: $my-primary;
+                }
+            }
+            .redirect {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                margin-bottom: 1em;
+                a {
+                    margin-left: 4px;
+                    cursor: pointer;
+                    text-decoration: none;
+                    transition: color 0.3s;
+                    &:hover {
+                        color: #0021a5;
+                    }
+                }
+            }
+            mat-error {
+                margin-top: -1em;
+                margin-bottom: 1em;
+            }
+        }
+    }
+}

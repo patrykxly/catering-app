@@ -1,0 +1,4 @@
+@import "../../_shared/variables.scss";
+@import "src/app/_shared/_styles/signForm.scss";
+
+@include signForm;

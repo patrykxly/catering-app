@@ -59,7 +59,7 @@ export class CaloricRequirementCalculatorComponent {
 
   static forbiddenHeightValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const isHeightForbidden = control.value < 55 || control.value > 251;
+      const isHeightForbidden = (control.value < 55 || control.value > 251) && !control.untouched;
       return isHeightForbidden
         ? { forbiddenHeight: { value: control.value } }
         : null;

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -6,7 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
+  registerFormGroup = this._formBuilder.group({
+    nameCtrl: ['', Validators.required],
+    mailCtrl: ['',Validators.required],
+    passwordCtrl: ['', Validators.required],  
+    repeatPasswordCtrl: ['', Validators.required]
+  })
 
-  constructor() { }
+  constructor(private _formBuilder: FormBuilder) { }
 
 }

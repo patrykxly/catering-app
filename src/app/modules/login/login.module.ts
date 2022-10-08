@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
 import { SharedModule } from 'src/app/_shared/shared.module';
-import { HeaderModule } from '../header/header.module';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -15,6 +15,7 @@ import { HeaderModule } from '../header/header.module';
     CommonModule,
     LoginRoutingModule,
     SharedModule,
+    MatCardModule
   ]
 })
 export class LoginModule { }

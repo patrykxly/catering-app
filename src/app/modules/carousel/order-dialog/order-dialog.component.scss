@@ -23,6 +23,10 @@ mat-stepper .footer {
     }
     .calculate-requirement-info {
         float: left;
+        a {
+            cursor: pointer;
+            color: #0336FF
+        }
     }
 }
 
