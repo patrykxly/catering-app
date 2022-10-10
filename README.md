@@ -7,3 +7,4 @@ This project is planned to imitate catering web application with functionalities
 ## Technologies
 * Angular with Material UI and Bootstrap
 * HTML/SCSS
+* C# with .NET6, Entity Framework and PostgreSql database
