@@ -1,4 +1,4 @@
-﻿using catering_app.Models;
+using catering_app.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace catering_app.Data
@@ -7,5 +7,6 @@ namespace catering_app.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) {}
         public DbSet<User> Users => Set<User>();
+        public DbSet<FoodSet> FoodSets => Set<FoodSet>();
     }
 }

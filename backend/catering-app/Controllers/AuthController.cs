@@ -10,69 +10,74 @@ using Microsoft.EntityFrameworkCore;
 
 namespace catering_app.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthController : ControllerBase
+  [Route("api/[controller]")]
+  [ApiController]
+  public class AuthController : ControllerBase
+  {
+    private readonly IConfiguration _configuration;
+    private readonly DataContext _context;
+
+    public AuthController(DataContext context, IConfiguration configuration)
     {
-        private readonly IConfiguration _configuration;
-        private readonly DataContext _context;
+      _context = context;
+      _configuration = configuration;
+    }
 
-        public AuthController(DataContext context, IConfiguration configuration)
-        {
-            _context = context; 
-            _configuration = configuration;
-        }
+    [HttpPost("register")]
+    public async Task<ActionResult<string>> Register(UserRegisterDto request)
+    {
+      if (_context.Users.Any(user => user.Email == request.Email))
+      {
+        return BadRequest("User already exists");
+      }
 
-        [HttpPost("register")]
-        public async Task<ActionResult<string>> Register(UserRegisterDto request)
-        {
-            if (_context.Users.Any(user => user.Email == request.Email))
-            {
-                return BadRequest("User already exists");
-            }
+      var regex = "^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$";
 
-            var regex = "^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$";
+      if (!System.Text.RegularExpressions.Regex.Match(request.Password, regex).Success)
+      {
+        return BadRequest("Wrong password");
+      }
 
-            if (!System.Text.RegularExpressions.Regex.Match(request.Password, regex).Success)
-            {
-                return BadRequest("Wrong password");
-            }
+      CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+      var user = new User
+      {
+        Firstname = request.Firstname,
+        Email = request.Email,
+        PasswordHash = passwordHash,
+        PasswordSalt = passwordSalt,
+      };
 
-            var user = new User
-            {
-                Firstname = request.Firstname,
-                Email = request.Email,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt,
-                VerificationToken = CreateRandomToken()
-            };
+      _context.Users.Add(user);
+      await _context.SaveChangesAsync();
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+      return Ok();
+    }
 
-            return Ok();
-        }
+    [HttpPost("login")]
+    public async Task<ActionResult<string>> Login(UserLoginDto request)
+    {
+      var user = await _context.Users.FirstOrDefaultAsync(user => user.Email == request.Email);
+      if (user == null)
+      {
+        return BadRequest("Provided data is incorrect");
+      }
+      if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+      {
+        return BadRequest("Provided data is incorrect");
+      }
 
-        [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(UserLoginDto request)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(user => user.Email == request.Email);
-            if(user == null)
-            {
-                return BadRequest("Provided data is incorrect");
-            }
-            //if(user.VerifiedAt == null)
-            //{
-            //    return BadRequest("User not verified");
-            //}
-            if(!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
-            {
-                return BadRequest("Provided data is incorrect");
-            }
-            return Ok(user.VerificationToken);
-        }
+      var token = CreateToken(user);
+
+      return Ok(token);
+    }
+
+    [HttpPatch("{id}")]
+    public async Task<ActionResult<string>> ModifyUser(Guid id, User request)
+    {
+      var user = await _context.Users.FindAsync(id);
+      return Ok();
+    }
 
     //[HttpPost("Verify")]
     //public async Task<IActionResult> Verify(string token)
@@ -88,45 +93,40 @@ namespace catering_app.Controllers
     //    return Ok("User verified");
     //}
 
-    //private string CreateToken(User user)
-    //{
-    //    List<Claim> claims = new()
-    //    {
-    //        new Claim(ClaimTypes.Email, user.Email)
-    //    };
-    //    var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-    //        _configuration.GetSection("AppSettings:Token").Value));
-
-    //    var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-    //    var token = new JwtSecurityToken(
-    //        claims: claims,
-    //        expires: DateTime.Now.AddHours(1),
-    //        signingCredentials: credentials
-    //        );
-
-    //    var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-    //    return jwt;
-    //}
-
-    private static string CreateRandomToken()
+    private string CreateToken(User user)
     {
-      return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+      List<Claim> claims = new()
+        {
+            new Claim(ClaimTypes.Email, user.Email)
+        };
+      var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
+          _configuration.GetSection("AppSettings:Token").Value));
+
+      var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+      var token = new JwtSecurityToken(
+          claims: claims,
+          expires: DateTime.Now.AddHours(1),
+          signingCredentials: credentials
+          );
+
+      var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+      return jwt;
     }
 
     private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using var hmac = new HMACSHA512();
-            passwordSalt = hmac.Key;
-            passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-        }
-
-        private static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            using var hmac = new HMACSHA512(passwordSalt);
-            var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            return computedHash.SequenceEqual(passwordHash);
-        }
+    {
+      using var hmac = new HMACSHA512();
+      passwordSalt = hmac.Key;
+      passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
     }
+
+    private static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+    {
+      using var hmac = new HMACSHA512(passwordSalt);
+      var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+      return computedHash.SequenceEqual(passwordHash);
+    }
+  }
 }

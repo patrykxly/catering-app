@@ -8,12 +8,17 @@
     <mat-icon>menu</mat-icon>
     <mat-menu #menu="matMenu">
       <button mat-menu-item routerLink="">Main page</button>
-      <button mat-menu-item routerLink="/calculator">Caloric requirement calculator</button>
+      <button mat-menu-item routerLink="/calculator">
+        Caloric requirement calculator
+      </button>
       <button mat-menu-item routerLink="/contact">Contact</button>
     </mat-menu>
   </button>
   <span class="spacer"></span>
-  <button class="sign-button" routerLink="/login">Sign in</button>/<button class="sign-button" routerLink="/register">
-    Sign up
-  </button>
+  <div class="sign-buttons" *ngIf="isLoggedIn === false || isLoggedIn === undefined; else logoutButton">
+    <button class="sign-button" routerLink="/login">Sign in</button>
+    /
+    <button class="sign-button" routerLink="/register">Sign up</button>
+  </div>
+  <ng-template #logoutButton><button class="sign-button" (click)="logout()">Logout</button></ng-template>
 </mat-toolbar>

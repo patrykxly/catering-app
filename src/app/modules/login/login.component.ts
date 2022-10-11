@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
 import { UsersService } from 'src/app/services/users.service';
 import { UserModel } from 'src/app/_shared/_models/userModels';
+import { AuthService } from 'src/app/_shared/_services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +16,9 @@ export class LoginComponent {
   isLoginFailed!: boolean;
 
   constructor(
-    private _usersService: UsersService
+    private _usersService: UsersService,
+    private _router: Router,
+    private _auth: AuthService
   ) {
     this.user = {
       Email: '',
@@ -27,12 +31,13 @@ export class LoginComponent {
       .login(this.user)
       .pipe(
         catchError((err) => {
-          console.info(err);
           this.isLoginFailed = true;
           return throwError(() => err);
         }),
         tap((res) => {
+          this._auth.isLoggedIn = true;
           localStorage.setItem('token', res);
+          this._router.navigate(['']);
           this.isLoginFailed = false;
         })
       )

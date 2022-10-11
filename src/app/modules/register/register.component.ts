@@ -23,8 +23,6 @@ export class RegisterComponent implements OnInit {
 
   areAllFieldsFilled: boolean = true;
 
-  isPasswordWeak: boolean = false;
-
   isRegistrationFailed: boolean = false;
 
   constructor(
@@ -49,7 +47,6 @@ export class RegisterComponent implements OnInit {
       const isPasswordCorrect = control.touched
         ? regex.test(control.value)
         : true;
-      this.isPasswordWeak = isPasswordCorrect ? false : true;
       return !isPasswordCorrect
         ? { incorrectPassword: { value: control.value } }
         : null;
@@ -58,13 +55,7 @@ export class RegisterComponent implements OnInit {
 
   register(): void {
     if (!this.checkIfAreAllFieldsFilled()) return;
-    const newUser: UserModel = {
-      Firstname: this.registerFormGroup.controls['nameCtrl'].value as string,
-      Email: this.registerFormGroup.controls['mailCtrl'].value as string,
-      Password: this.registerFormGroup.controls['passwordCtrl'].value as string,
-      ConfirmPassword: this.registerFormGroup.controls['repeatPasswordCtrl']
-        .value as string,
-    };
+    const newUser: UserModel = this.createNewUser();
     this._usersService
       .register(newUser)
       .pipe(
@@ -91,6 +82,16 @@ export class RegisterComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  private createNewUser(): UserModel {
+    return {
+      Firstname: this.registerFormGroup.controls['nameCtrl'].value as string,
+      Email: this.registerFormGroup.controls['mailCtrl'].value as string,
+      Password: this.registerFormGroup.controls['passwordCtrl'].value as string,
+      ConfirmPassword: this.registerFormGroup.controls['repeatPasswordCtrl']
+        .value as string,
+    };
   }
 
   private openSnackBar(): void {

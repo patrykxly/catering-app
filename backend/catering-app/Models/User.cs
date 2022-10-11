@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace catering_app.Models
 {
     public class User
@@ -9,7 +7,8 @@ namespace catering_app.Models
         public string Email { get; set; } = string.Empty;
         public byte[] PasswordHash { get; set; } = new byte[32];
         public byte[] PasswordSalt { get; set; } = new byte[32];
-        public string? VerificationToken { get; set; }
+        public List<FoodSet>? Orders { get; set; } = new List<FoodSet>();
+        //public string? VerificationToken { get; set; }
     //public DateTime? VerifiedAt { get; set; }
     //public string? PasswordResetToken { get; set; }
     //public DateTime? ResetTokenExpires { get; set; }
