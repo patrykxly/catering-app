@@ -16,6 +16,14 @@ body {
     background-color: $my-secondary;
 }
 
+.custom-snackbar {
+    background-color: $my-primary;
+    color: $my-secondary;
+    .mat-simple-snackbar-action {
+        color: $my-secondary;
+    }
+}
+
 @media (max-width: 960px) {
     body {
         width: 100%;

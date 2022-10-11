@@ -5,7 +5,7 @@ import { RegisterRoutingModule } from './register-routing.module';
 import { RegisterComponent } from './register.component';
 import { SharedModule } from 'src/app/_shared/shared.module';
 import { MatCardModule } from '@angular/material/card';
-
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -15,7 +15,9 @@ import { MatCardModule } from '@angular/material/card';
     CommonModule,
     RegisterRoutingModule,
     SharedModule,
-    MatCardModule
+    MatCardModule,
+    MatSnackBarModule
+    
   ]
 })
 export class RegisterModule { }
