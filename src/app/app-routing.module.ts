@@ -10,6 +10,7 @@ const routes: Routes = [
   },
   { path: 'login', loadChildren: () => import('./modules/login/login.module').then(m => m.LoginModule) },
   { path: 'register', loadChildren: () => import('./modules/register/register.module').then(m => m.RegisterModule) },
+  { path: 'settings', loadChildren: () => import('./modules/account-settings/account-settings.module').then(m => m.AccountSettingsModule) },
   {
     path: "**",
     redirectTo: ''

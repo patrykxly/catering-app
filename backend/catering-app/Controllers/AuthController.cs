@@ -31,9 +31,7 @@ namespace catering_app.Controllers
         return BadRequest("User already exists");
       }
 
-      var regex = "^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$";
-
-      if (!System.Text.RegularExpressions.Regex.Match(request.Password, regex).Success)
+      if (!IsPasswordValid(request.Password))
       {
         return BadRequest("Wrong password");
       }
@@ -47,6 +45,8 @@ namespace catering_app.Controllers
         PasswordHash = passwordHash,
         PasswordSalt = passwordSalt,
       };
+      var token = CreateToken(user);
+      user.VerificationToken = token;
 
       _context.Users.Add(user);
       await _context.SaveChangesAsync();
@@ -55,7 +55,7 @@ namespace catering_app.Controllers
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<string>> Login(UserLoginDto request)
+    public async Task<ActionResult<UserAccessibleDataDto>> Login(UserLoginDto request)
     {
       var user = await _context.Users.FirstOrDefaultAsync(user => user.Email == request.Email);
       if (user == null)
@@ -67,31 +67,41 @@ namespace catering_app.Controllers
         return BadRequest("Provided data is incorrect");
       }
 
-      var token = CreateToken(user);
+      var data = new UserAccessibleDataDto
+      {
+        Firstname = user.Firstname,
+        Email = user.Email,
+        VerificationToken = user.VerificationToken
+      };
 
-      return Ok(token);
+      return Ok(data);
     }
 
-    [HttpPatch("{id}")]
-    public async Task<ActionResult<string>> ModifyUser(Guid id, User request)
+    [HttpPatch("modify")]
+    public async Task<ActionResult<string>> ModifyUserCredentials(UserRegisterDto request)
     {
-      var user = await _context.Users.FindAsync(id);
+      var user = await _context.Users.FirstOrDefaultAsync(user => user.Email == request.Email);
+      if (user == null)
+      {
+        return BadRequest();
+      }
+      if (request.Firstname != null)
+      {
+        user.Firstname = request.Firstname;
+      }
+      if (request.Password != null)
+      {
+        if (!IsPasswordValid(request.Password))
+        {
+          return BadRequest("Wrong password");
+        }
+        CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+        user.PasswordSalt = passwordSalt;
+        user.PasswordHash = passwordHash;
+      }
+      await _context.SaveChangesAsync();
       return Ok();
     }
-
-    //[HttpPost("Verify")]
-    //public async Task<IActionResult> Verify(string token)
-    //{
-    //    var user = await _context.Users.FirstOrDefaultAsync(user => user.VerificationToken == token);
-    //    if(user == null)
-    //    {
-    //        return BadRequest("Invalid token");
-    //    }
-    //    user.VerifiedAt = DateTime.Now;
-    //    await _context.SaveChangesAsync();
-
-    //    return Ok("User verified");
-    //}
 
     private string CreateToken(User user)
     {
@@ -113,6 +123,14 @@ namespace catering_app.Controllers
       var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
       return jwt;
+    }
+
+    private static bool IsPasswordValid(string password)
+    {
+      var regex = "^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$";
+
+      if (!System.Text.RegularExpressions.Regex.Match(password, regex).Success) return false;
+      return true;
     }
 
     private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)

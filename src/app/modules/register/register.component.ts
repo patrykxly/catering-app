@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
 import { UsersService } from 'src/app/services/users.service';
-import { UserModel } from 'src/app/_shared/_models/userModels';
+import { UserModel } from 'src/app/_shared/_models/userModel';
 
 @Component({
   selector: 'app-register',
@@ -86,10 +86,10 @@ export class RegisterComponent implements OnInit {
 
   private createNewUser(): UserModel {
     return {
-      Firstname: this.registerFormGroup.controls['nameCtrl'].value as string,
-      Email: this.registerFormGroup.controls['mailCtrl'].value as string,
-      Password: this.registerFormGroup.controls['passwordCtrl'].value as string,
-      ConfirmPassword: this.registerFormGroup.controls['repeatPasswordCtrl']
+      firstname: this.registerFormGroup.controls['nameCtrl'].value as string,
+      email: this.registerFormGroup.controls['mailCtrl'].value as string,
+      password: this.registerFormGroup.controls['passwordCtrl'].value as string,
+      confirmPassword: this.registerFormGroup.controls['repeatPasswordCtrl']
         .value as string,
     };
   }

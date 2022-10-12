@@ -7,18 +7,34 @@
   >
     <mat-icon>menu</mat-icon>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item routerLink="">Main page</button>
-      <button mat-menu-item routerLink="/calculator">
-        Caloric requirement calculator
+      <button mat-menu-item routerLink="">
+        <mat-icon>home</mat-icon>
+        <span>Main page</span>
       </button>
-      <button mat-menu-item routerLink="/contact">Contact</button>
+      <button mat-menu-item routerLink="/calculator">
+        <mat-icon>fastfood</mat-icon>
+        <span>Caloric requirement calculator</span>
+      </button>
+      <button mat-menu-item *ngIf="isLoggedIn === true" routerLink="/settings">
+        <mat-icon>settings</mat-icon>
+        <span>Account settings</span>
+      </button>
+      <button mat-menu-item routerLink="/contact">
+        <mat-icon>message</mat-icon>
+        <span>Contact</span>
+      </button>
     </mat-menu>
   </button>
   <span class="spacer"></span>
-  <div class="sign-buttons" *ngIf="isLoggedIn === false || isLoggedIn === undefined; else logoutButton">
+  <div
+    class="sign-buttons"
+    *ngIf="isLoggedIn === false || isLoggedIn === undefined; else logoutButton"
+  >
     <button class="sign-button" routerLink="/login">Sign in</button>
     /
     <button class="sign-button" routerLink="/register">Sign up</button>
   </div>
-  <ng-template #logoutButton><button class="sign-button" (click)="logout()">Logout</button></ng-template>
+  <ng-template #logoutButton
+    ><button class="sign-button" (click)="logout()">Logout</button></ng-template
+  >
 </mat-toolbar>
