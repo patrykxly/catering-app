@@ -10,6 +10,7 @@ This project is imitating catering web application with functionalities mentione
 * C# with .NET6, Entity Framework and PostgreSql database
 
 ## Functionalities
-* Register and login system (with auth guard so logged in user cannot login/register    )
-* Daily caloric requirement calculator
-* Ordering catering for some period of time
+* Register and login system (with auth guard so logged in user cannot login/register) - backend + frontend
+* Possibility to change logged in user credentials - backend + frontend
+* Daily caloric requirement calculator - frontend
+* Ordering catering for some period of time - frontend (+ backend soon)

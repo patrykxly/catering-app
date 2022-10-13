@@ -8,6 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import { ConfirmDialogModule } from './_shared/_components/confirm-dialog/confirm-dialog.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,7 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
     HomeModule,
     NgbModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

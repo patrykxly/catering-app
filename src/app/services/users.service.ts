@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { UserModel } from '../_shared/_models/userModel';
 
 @Injectable({
@@ -17,5 +17,11 @@ export class UsersService {
 
   login(user: UserModel): Observable<UserModel> {
     return this.http.post(`${this._url}/login`, user);
+  }
+
+  modifyCredentials(user: UserModel): Observable<UserModel> {
+    return this.http.patch(`${this._url}/modify`, user).pipe(
+      catchError(err => throwError(() => err))
+    );
   }
 }

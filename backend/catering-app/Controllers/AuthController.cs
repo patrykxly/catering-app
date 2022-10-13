@@ -67,18 +67,11 @@ namespace catering_app.Controllers
         return BadRequest("Provided data is incorrect");
       }
 
-      var data = new UserAccessibleDataDto
-      {
-        Firstname = user.Firstname,
-        Email = user.Email,
-        VerificationToken = user.VerificationToken
-      };
-
-      return Ok(data);
+      return Ok(getUserData(user));
     }
 
     [HttpPatch("modify")]
-    public async Task<ActionResult<string>> ModifyUserCredentials(UserRegisterDto request)
+    public async Task<ActionResult<UserAccessibleDataDto>> ModifyUserCredentials(UserAccessibleDataDto request)
     {
       var user = await _context.Users.FirstOrDefaultAsync(user => user.Email == request.Email);
       if (user == null)
@@ -89,7 +82,7 @@ namespace catering_app.Controllers
       {
         user.Firstname = request.Firstname;
       }
-      if (request.Password != null)
+      if (request.Password != string.Empty)
       {
         if (!IsPasswordValid(request.Password))
         {
@@ -100,7 +93,8 @@ namespace catering_app.Controllers
         user.PasswordHash = passwordHash;
       }
       await _context.SaveChangesAsync();
-      return Ok();
+
+      return Ok(getUserData(user));
     }
 
     private string CreateToken(User user)
@@ -145,6 +139,17 @@ namespace catering_app.Controllers
       using var hmac = new HMACSHA512(passwordSalt);
       var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
       return computedHash.SequenceEqual(passwordHash);
+    }
+
+    private UserAccessibleDataDto getUserData(User user)
+    {
+      var data = new UserAccessibleDataDto
+      {
+        Firstname = user.Firstname,
+        Email = user.Email,
+        VerificationToken = user.VerificationToken
+      };
+      return data;
     }
   }
 }

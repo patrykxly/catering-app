@@ -40,12 +40,13 @@ export class LoginComponent {
   }
 
   private afterLoginSuccess(data: UserModel) {
+    const user: UserModel = {
+      email: data.email,
+      firstname: data.firstname
+    };
+    localStorage.setItem('current user', JSON.stringify(user));
     localStorage.setItem('token', data.verificationToken as string);
     this._auth.isLoggedIn = true;
-    this._auth.userData = {
-      firstname: data.firstname,
-      email: data.email,
-    };
     this.isLoginFailed = false;
     this._router.navigate(['']);
   }

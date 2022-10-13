@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 import { HeaderModule } from '../modules/header/header.module';
+import { ConfirmDialogModule } from './_components/confirm-dialog/confirm-dialog.module';
 
 @NgModule({
   declarations: [],
@@ -20,6 +21,7 @@ import { HeaderModule } from '../modules/header/header.module';
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
+    ConfirmDialogModule
   ],
   exports: [
     CommonModule,
@@ -31,6 +33,7 @@ import { HeaderModule } from '../modules/header/header.module';
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
+    ConfirmDialogModule
   ],
 })
 export class SharedModule {}

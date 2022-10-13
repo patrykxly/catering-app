@@ -1,0 +1,15 @@
+p {
+    font-size: 1.2em;
+    font-weight: 400;
+    text-align: center;
+}
+.buttons {
+    .confirm-button {
+        display: flex;
+        float: right;
+    }
+    .close-button {
+        display: flex;
+        float: left;
+    }
+}
