@@ -17,7 +17,7 @@ This project is imitating catering web application with functionalities mentione
 
 ## Running the app
 ### In order to run this app after cloning repo you need to do following steps:
-1. Install VSCode(https://code.visualstudio.com/download)
+1. Install [VSCode](https://code.visualstudio.com/download)
 2. Install Angular-CLI ( *npm install -g @angular/cli* in VSCode console)
 3. Install [.NET SDK](https://dotnet.microsoft.com/en-us/download)
 4. Install [PostgreSQL with pgAdmin 4](https://www.postgresql.org/download/)
