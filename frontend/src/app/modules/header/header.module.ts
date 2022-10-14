@@ -4,7 +4,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { NavbarComponent } from 'src/app/modules/header/navbar/navbar.component';
+import { NavbarComponent } from '@modules/header/navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({

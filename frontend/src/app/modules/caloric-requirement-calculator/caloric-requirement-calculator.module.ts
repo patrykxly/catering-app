@@ -7,7 +7,7 @@ import { HeaderModule } from '../header/header.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { CaloricRequirementInfoDialogComponent } from './caloric-requirement-info-dialog/caloric-requirement-info-dialog.component';
-import { SharedModule } from 'src/app/_shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 @NgModule({
   declarations: [CaloricRequirementCalculatorComponent, CaloricRequirementInfoDialogComponent],
   imports: [

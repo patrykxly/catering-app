@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
-import { UsersService } from 'src/app/services/users.service';
-import { UserModel } from 'src/app/_shared/_models/userModel';
-import { AuthService } from 'src/app/_shared/_services/auth.service';
+import { UsersService } from '@services/users.service';
+import { UserModel } from '@shared/_models/userModel';
+import { AuthService } from '@shared/_services/auth.service';
 
 @Component({
   selector: 'app-login',

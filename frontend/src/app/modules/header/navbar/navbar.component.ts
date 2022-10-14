@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
-import { AuthService } from 'src/app/_shared/_services/auth.service';
+import { AuthService } from '@shared/_services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -31,5 +31,6 @@ export class NavbarComponent implements OnInit {
     localStorage.removeItem('token');
     this.isLoggedIn = false;
     this._auth.isLoggedIn = false;
+    this._router.navigate(['']);
   }
 }

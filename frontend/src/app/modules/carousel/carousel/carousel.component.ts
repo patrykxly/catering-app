@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FoodSetCardModel } from 'src/app/_shared/_models/foodSetCardModel';
+import { FoodSetCardModel } from '@shared/_models/foodSetCardModel';
 import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component';
 import { OrderDialogComponent } from '../order-dialog/order-dialog.component';
 

@@ -12,7 +12,9 @@ import {
 } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { startWith, tap } from 'rxjs';
-import { FoodSetCardModel } from 'src/app/_shared/_models/foodSetCardModel';
+import { ConfirmDialogComponent } from '@shared/_components/confirm-dialog/confirm-dialog.component';
+import { FoodSetCardModel } from '@shared/_models/foodSetCardModel';
+import { AuthService } from '@shared/_services/auth.service';
 import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component';
 
 @Component({
@@ -40,7 +42,8 @@ export class OrderDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<DetailDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: FoodSetCardModel,
     public dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private _authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -79,7 +82,12 @@ export class OrderDialogComponent implements OnInit {
   }
 
   onConfirm(): void {
-    this.dialogRef.close();
+    if(!this._authService.isLoggedIn) {
+      this.router.navigate(["/login"]);
+      this.dialogRef.close()
+    }
+    else
+      this.openConfirmDialog();
   }
 
   private setFullpriceAndchosenCalorieAmount(chosenRadioValue: string): void {
@@ -101,5 +109,19 @@ export class OrderDialogComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  private openConfirmDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '30%',
+      data: 'order this catering',
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      console.info('Detail dialog closed');
+      if (result) {
+        this.dialogRef.close();
+      }
+    });
   }
 }

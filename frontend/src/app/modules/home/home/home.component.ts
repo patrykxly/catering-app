@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FoodSetCardModel } from 'src/app/_shared/_models/foodSetCardModel';
+import { FoodSetCardModel } from '@shared/_models/foodSetCardModel';
 
 @Component({
   selector: 'app-home',

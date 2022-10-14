@@ -10,8 +10,8 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
-import { UsersService } from 'src/app/services/users.service';
-import { UserModel } from 'src/app/_shared/_models/userModel';
+import { UsersService } from '@services/users.service';
+import { UserModel } from '@shared/_models/userModel';
 
 @Component({
   selector: 'app-register',

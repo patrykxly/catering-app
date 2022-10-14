@@ -3,10 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { tap } from 'rxjs';
-import { UsersService } from 'src/app/services/users.service';
-import { ConfirmDialogComponent } from 'src/app/_shared/_components/confirm-dialog/confirm-dialog.component';
-import { UserModel } from 'src/app/_shared/_models/userModel';
-import { AuthService } from 'src/app/_shared/_services/auth.service';
+import { UsersService } from '@services/users.service';
+import { ConfirmDialogComponent } from '@shared/_components/confirm-dialog/confirm-dialog.component';
+import { UserModel } from '@shared/_models/userModel';
 
 @Component({
   selector: 'app-account-settings',

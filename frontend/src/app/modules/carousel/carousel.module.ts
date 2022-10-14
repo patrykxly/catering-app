@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { DetailDialogComponent } from 'src/app/modules/carousel/detail-dialog/detail-dialog.component';
+import { DetailDialogComponent } from '@modules/carousel/detail-dialog/detail-dialog.component';
 import { OrderDialogComponent } from './order-dialog/order-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +8,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
-import { SharedModule } from 'src/app/_shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   declarations: [
