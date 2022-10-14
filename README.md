@@ -22,7 +22,7 @@ This project is imitating catering web application with functionalities mentione
 3. Install [.NET SDK](https://dotnet.microsoft.com/en-us/download)
 4. Install [PostgreSQL with pgAdmin 4](https://www.postgresql.org/download/)
 5. Go into frontend folder and run *npm install* in the console
-6. Launch frontend with *ng serve*
+6. Launch frontend with *ng serve* (to do this you only need VSCode and Angular-CLI)
 7. Open pgAdmin, click *Object* > *Register* > *Server*
 8. Enter server data - server name = *postgres*,
 9. In *Connection* tab - Host name=*localhost*, Port=*5432*, Maintenance database=*postgres*, Username=*postgres*, Password=*postgres*
