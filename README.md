@@ -1,4 +1,3 @@
-# PROJECT STILL IN PROGRESS!
 # CateringApp
 
 ## Description
